@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import db from '../db'
+import { requireAuth } from '../middleware/auth'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me'
 
@@ -58,6 +59,19 @@ router.post('/login', async (req, res) => {
   const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' })
 
   res.json({ token })
+})
+
+router.get('/me', requireAuth, (req, res) => {
+  const user = db.query(
+    'SELECT id, email, instagram_username FROM users WHERE id = ?'
+  ).get(req.user!.userId) as { id: number; email: string; instagram_username: string | null } | null
+
+  if (!user) {
+    res.status(404).json({ error: 'User not found' })
+    return
+  }
+
+  res.json(user)
 })
 
 export default router
