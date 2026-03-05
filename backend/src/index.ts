@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import db from './db'
+import authRoutes from './routes/auth'
 
 const app = express()
 const PORT = parseInt(process.env.PORT || '3001', 10)
@@ -11,6 +12,9 @@ const allowedOrigins = [
 ].filter(Boolean) as string[]
 
 app.use(cors({ origin: allowedOrigins }))
+app.use(express.json())
+
+app.use('/api/auth', authRoutes)
 
 app.get('/api/health', (_req, res) => {
   try {
