@@ -1,0 +1,27 @@
+.app {
+  text-align: center;
+  padding: 2rem;
+}
+
+.status {
+  margin-top: 1.5rem;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.status.connected {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.status.unreachable {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.status.loading {
+  color: #6b7280;
+  background: #f3f4f6;
+}
